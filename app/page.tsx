@@ -9,8 +9,10 @@ export default function LandingPage() {
   const [submitting, setSubmitting] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const check = () => setIsMobile(window.innerWidth < 768)
     check()
     window.addEventListener('resize', check)
@@ -61,7 +63,7 @@ export default function LandingPage() {
     color: '#1a1a18',
     outline: 'none',
     fontFamily: 'system-ui',
-    WebkitAppearance: 'none' as const,
+    boxSizing: 'border-box' as const,
   }
 
   const labelStyle = {
@@ -71,6 +73,14 @@ export default function LandingPage() {
     marginBottom: '6px',
     fontWeight: '500' as const,
   }
+
+  const m = isMobile
+
+  if (!mounted) return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'system-ui', color: '#1D9E75', fontSize: '16px', fontWeight: '500' }}>
+      Loading Placera...
+    </div>
+  )
 
   return (
     <div style={{ fontFamily: 'system-ui, -apple-system, sans-serif', color: '#1a1a18', background: '#ffffff', overflowX: 'hidden' as const }}>
@@ -84,10 +94,13 @@ export default function LandingPage() {
           </div>
           <span style={{ fontSize: '18px', fontWeight: '600', color: '#1a1a18' }}>Placera</span>
         </div>
-        {isMobile ? (
+        {m ? (
           <button onClick={() => setMenuOpen(!menuOpen)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '8px', color: '#1a1a18' }}>
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              {menuOpen ? <><path d="M4 4l14 14M18 4L4 18"/></> : <><path d="M3 6h16M3 11h16M3 16h16"/></>}
+              {menuOpen
+                ? <><path d="M4 4l14 14M18 4L4 18"/></>
+                : <><path d="M3 6h16M3 11h16M3 16h16"/></>
+              }
             </svg>
           </button>
         ) : (
@@ -110,44 +123,45 @@ export default function LandingPage() {
         )}
       </nav>
 
-      {menuOpen && isMobile && (
-        <div style={{ background: '#ffffff', borderBottom: '1px solid #f0f0f0', padding: '12px 20px', display: 'flex', flexDirection: 'column' as const, gap: '4px' }}>
+      {menuOpen && m && (
+        <div style={{ background: '#ffffff', borderBottom: '1px solid #f0f0f0', padding: '12px 20px', display: 'flex', flexDirection: 'column' as const, gap: '4px', position: 'sticky' as const, top: '60px', zIndex: 99 }}>
           {['Features', 'Pricing', 'Contact'].map(item => (
-            <span key={item} style={{ fontSize: '16px', color: '#1a1a18', padding: '10px 0', cursor: 'pointer', borderBottom: '1px solid #f8f8f8' }}
-              onClick={() => { setMenuOpen(false); const el = document.getElementById(item.toLowerCase()); el?.scrollIntoView({ behavior: 'smooth' }) }}>
+            <span key={item} style={{ fontSize: '16px', color: '#1a1a18', padding: '12px 0', cursor: 'pointer', borderBottom: '1px solid #f8f8f8', fontWeight: '500' }}
+              onClick={() => { setMenuOpen(false); setTimeout(() => { const el = document.getElementById(item.toLowerCase()); el?.scrollIntoView({ behavior: 'smooth' }) }, 100) }}>
               {item}
             </span>
           ))}
-          <button style={{ marginTop: '8px', padding: '13px', background: '#1D9E75', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '16px', fontWeight: '600', cursor: 'pointer' }}
+          <button style={{ marginTop: '10px', padding: '14px', background: '#1D9E75', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '16px', fontWeight: '600', cursor: 'pointer' }}
             onClick={() => { setMenuOpen(false); window.open('https://login.placera.in/signup', '_blank') }}>
             Start free trial
           </button>
-          <button style={{ marginTop: '8px', padding: '12px', background: '#fff', color: '#1a1a18', border: '1px solid #d0d0d0', borderRadius: '10px', fontSize: '15px', cursor: 'pointer' }}
+          <button style={{ marginTop: '8px', padding: '13px', background: '#fff', color: '#1a1a18', border: '1px solid #d0d0d0', borderRadius: '10px', fontSize: '15px', cursor: 'pointer' }}
             onClick={() => { setMenuOpen(false); window.open('https://login.placera.in', '_blank') }}>
             Sign in
           </button>
         </div>
       )}
 
-      <div style={{ padding: isMobile ? '48px 20px 40px' : '80px 48px 70px', background: '#ffffff' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? '32px' : '48px', alignItems: 'center' }}>
+      <div style={{ padding: m ? '48px 20px 40px' : '80px 48px 70px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: m ? '32px' : '48px', alignItems: 'center' }}>
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#E1F5EE', color: '#085041', fontSize: '12px', fontWeight: '600', padding: '5px 12px', borderRadius: '20px', marginBottom: '20px' }}>
               <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#1D9E75' }}></div>
               Built for Indian colleges
             </div>
-            <h1 style={{ fontSize: isMobile ? '34px' : '44px', fontWeight: '700', lineHeight: '1.18', marginBottom: '16px', color: '#1a1a18', letterSpacing: '-.3px' }}>
-              The smarter way to <span style={{ color: '#1D9E75' }}>place your students</span>
+            <h1 style={{ fontSize: m ? '34px' : '44px', fontWeight: '700', lineHeight: '1.18', marginBottom: '16px', color: '#1a1a18', letterSpacing: '-.3px' }}>
+              The smarter way to{' '}
+              <span style={{ color: '#1D9E75' }}>place your students</span>
             </h1>
-            <p style={{ fontSize: isMobile ? '15px' : '16px', color: '#555', lineHeight: '1.7', marginBottom: '28px' }}>
+            <p style={{ fontSize: m ? '15px' : '16px', color: '#555', lineHeight: '1.7', marginBottom: '28px' }}>
               Placera gives Training and Placement Officers a complete platform to manage HR contacts, track placements, and close more offers — replacing Excel forever.
             </p>
-            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' as const, gap: '10px', marginBottom: '16px' }}>
-              <button style={{ fontSize: '16px', fontWeight: '600', color: '#fff', padding: '14px 24px', background: '#1D9E75', border: 'none', borderRadius: '10px', cursor: 'pointer', width: isMobile ? '100%' : 'auto' }}
+            <div style={{ display: 'flex', flexDirection: m ? 'column' : 'row' as const, gap: '10px', marginBottom: '16px' }}>
+              <button style={{ fontSize: '16px', fontWeight: '600', color: '#fff', padding: '14px 24px', background: '#1D9E75', border: 'none', borderRadius: '10px', cursor: 'pointer', width: m ? '100%' : 'auto' }}
                 onClick={() => window.open('https://login.placera.in/signup', '_blank')}>
                 Start free 30-day trial
               </button>
-              <button style={{ fontSize: '15px', color: '#1a1a18', padding: '14px 24px', border: '1px solid #d0d0d0', borderRadius: '10px', cursor: 'pointer', background: '#fff', width: isMobile ? '100%' : 'auto' }}
+              <button style={{ fontSize: '15px', color: '#1a1a18', padding: '14px 24px', border: '1px solid #d0d0d0', borderRadius: '10px', cursor: 'pointer', background: '#fff', width: m ? '100%' : 'auto' }}
                 onClick={() => { const el = document.getElementById('contact'); el?.scrollIntoView({ behavior: 'smooth' }) }}>
                 Talk to us
               </button>
@@ -182,7 +196,7 @@ export default function LandingPage() {
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#fff', borderRadius: '8px', padding: '9px 10px', border: '1px solid #eee', marginBottom: '6px' }}>
                 <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: c.bg, color: c.fg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px', fontWeight: '700', flexShrink: 0 }}>{c.av}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: '13px', fontWeight: '600', color: '#1a1a18', whiteSpace: 'nowrap' as const, overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.name}</div>
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: '#1a1a18' }}>{c.name}</div>
                   <div style={{ fontSize: '11px', color: '#aaa' }}>{c.co}</div>
                 </div>
                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: c.dot, flexShrink: 0 }}></div>
@@ -192,7 +206,7 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <div style={{ background: '#f8f9fc', padding: '20px', borderTop: '1px solid #f0f0f0', borderBottom: '1px solid #f0f0f0', overflowX: 'auto' as const }}>
+      <div style={{ background: '#f8f9fc', padding: '20px', borderTop: '1px solid #f0f0f0', borderBottom: '1px solid #f0f0f0' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', maxWidth: '900px', margin: '0 auto', flexWrap: 'wrap' as const }}>
           <span style={{ fontSize: '11px', color: '#aaa', textTransform: 'uppercase' as const, letterSpacing: '.06em', fontWeight: '600', whiteSpace: 'nowrap' as const }}>Trusted by</span>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' as const }}>
@@ -203,13 +217,13 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <div id="features" style={{ padding: isMobile ? '56px 20px' : '80px 48px', background: '#ffffff' }}>
+      <div id="features" style={{ padding: m ? '56px 20px' : '80px 48px', background: '#ffffff' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', color: '#1D9E75', textTransform: 'uppercase' as const, letterSpacing: '.1em', marginBottom: '10px' }}>Features</div>
-          <div style={{ fontSize: isMobile ? '26px' : '32px', fontWeight: '700', color: '#1a1a18', marginBottom: '10px' }}>Everything your placement cell needs</div>
+          <div style={{ fontSize: m ? '26px' : '32px', fontWeight: '700', color: '#1a1a18', marginBottom: '10px' }}>Everything your placement cell needs</div>
           <div style={{ fontSize: '15px', color: '#555', maxWidth: '480px', margin: '0 auto', lineHeight: '1.6' }}>Built specifically for TPOs — not a generic CRM</div>
         </div>
-        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,minmax(0,1fr))', gap: '12px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3,minmax(0,1fr))', gap: '12px' }}>
           {features.map((f, i) => (
             <div key={i} style={{ border: '1px solid #eee', borderRadius: '14px', padding: '22px', background: '#fff' }}>
               <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: f.icon, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>
@@ -229,10 +243,10 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <div style={{ padding: isMobile ? '56px 20px' : '80px 48px', background: '#f8f9fc' }}>
+      <div style={{ padding: m ? '56px 20px' : '80px 48px', background: '#f8f9fc' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', color: '#1D9E75', textTransform: 'uppercase' as const, letterSpacing: '.1em', marginBottom: '10px' }}>How it works</div>
-          <div style={{ fontSize: isMobile ? '26px' : '32px', fontWeight: '700', color: '#1a1a18', marginBottom: '10px' }}>Up and running in 30 minutes</div>
+          <div style={{ fontSize: m ? '26px' : '32px', fontWeight: '700', color: '#1a1a18', marginBottom: '10px' }}>Up and running in 30 minutes</div>
           <div style={{ fontSize: '15px', color: '#555', maxWidth: '480px', margin: '0 auto', lineHeight: '1.6' }}>No technical knowledge needed</div>
         </div>
         <div style={{ maxWidth: '560px', margin: '0 auto', display: 'flex', flexDirection: 'column' as const, gap: '12px' }}>
@@ -250,13 +264,13 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <div id="pricing" style={{ padding: isMobile ? '56px 20px' : '80px 48px', background: '#ffffff' }}>
+      <div id="pricing" style={{ padding: m ? '56px 20px' : '80px 48px', background: '#ffffff' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', color: '#1D9E75', textTransform: 'uppercase' as const, letterSpacing: '.1em', marginBottom: '10px' }}>Pricing</div>
-          <div style={{ fontSize: isMobile ? '26px' : '32px', fontWeight: '700', color: '#1a1a18', marginBottom: '10px' }}>Simple, transparent pricing</div>
+          <div style={{ fontSize: m ? '26px' : '32px', fontWeight: '700', color: '#1a1a18', marginBottom: '10px' }}>Simple, transparent pricing</div>
           <div style={{ fontSize: '15px', color: '#555', maxWidth: '480px', margin: '0 auto', lineHeight: '1.6' }}>Start free. Pay only when you are ready.</div>
         </div>
-        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,minmax(0,1fr))', gap: '14px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: m ? '1fr' : 'repeat(3,minmax(0,1fr))', gap: '14px' }}>
           {plans.map((plan, i) => (
             <div key={i} style={{ border: plan.pop ? '2px solid #1D9E75' : '1px solid #eee', borderRadius: '14px', padding: '26px 22px', position: 'relative' as const, background: '#fff' }}>
               {plan.pop && (
@@ -287,13 +301,13 @@ export default function LandingPage() {
         <p style={{ textAlign: 'center', fontSize: '13px', color: '#aaa', marginTop: '16px' }}>All plans include a 30-day free trial. No credit card required.</p>
       </div>
 
-      <div id="contact" style={{ padding: isMobile ? '56px 20px' : '80px 48px', background: '#f8f9fc' }}>
+      <div id="contact" style={{ padding: m ? '56px 20px' : '80px 48px', background: '#f8f9fc' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', color: '#1D9E75', textTransform: 'uppercase' as const, letterSpacing: '.1em', marginBottom: '10px' }}>Contact</div>
-          <div style={{ fontSize: isMobile ? '26px' : '32px', fontWeight: '700', color: '#1a1a18', marginBottom: '10px' }}>Get in touch with us</div>
+          <div style={{ fontSize: m ? '26px' : '32px', fontWeight: '700', color: '#1a1a18', marginBottom: '10px' }}>Get in touch with us</div>
           <div style={{ fontSize: '15px', color: '#555', maxWidth: '480px', margin: '0 auto', lineHeight: '1.6' }}>Questions about Placera? Want a demo? We respond within 24 hours.</div>
         </div>
-        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '32px', alignItems: 'start' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: '32px', alignItems: 'start' }}>
           <div>
             <p style={{ fontSize: '15px', color: '#555', lineHeight: '1.7', marginBottom: '24px' }}>
               Whether you want a product demo, have questions about pricing, or need help getting started — we are here to help.
@@ -315,9 +329,10 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
-          <div style={{ background: '#fff', border: '1px solid #eee', borderRadius: '16px', padding: isMobile ? '20px' : '28px' }}>
+
+          <div style={{ background: '#fff', border: '1px solid #eee', borderRadius: '16px', padding: m ? '20px' : '28px' }}>
             <div style={{ fontSize: '18px', fontWeight: '700', color: '#1a1a18', marginBottom: '20px' }}>Send us a message</div>
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
               <div>
                 <label style={labelStyle}>Your name</label>
                 <input style={inputStyle} type="text" placeholder="Dr. S. Dhanapal" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })}/>
@@ -363,14 +378,14 @@ export default function LandingPage() {
         </div>
       </div>
 
-      <div style={{ padding: isMobile ? '56px 20px' : '80px 48px', textAlign: 'center', background: '#1D9E75' }}>
-        <div style={{ fontSize: isMobile ? '28px' : '36px', fontWeight: '700', color: '#fff', marginBottom: '14px', lineHeight: '1.2' }}>
+      <div style={{ padding: m ? '56px 20px' : '80px 48px', textAlign: 'center', background: '#1D9E75' }}>
+        <div style={{ fontSize: m ? '28px' : '36px', fontWeight: '700', color: '#fff', marginBottom: '14px', lineHeight: '1.2' }}>
           Ready to transform your placement cell?
         </div>
         <div style={{ fontSize: '16px', color: 'rgba(255,255,255,0.85)', marginBottom: '28px', maxWidth: '440px', margin: '0 auto 28px', lineHeight: '1.7' }}>
           Join colleges across India using Placera to place more students, faster.
         </div>
-        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' as const, gap: '10px', justifyContent: 'center', marginBottom: '14px', maxWidth: isMobile ? '100%' : 'auto', margin: '0 auto 14px' }}>
+        <div style={{ display: 'flex', flexDirection: m ? 'column' : 'row' as const, gap: '10px', justifyContent: 'center', marginBottom: '14px' }}>
           <button onClick={() => window.open('https://login.placera.in/signup', '_blank')}
             style={{ fontSize: '16px', fontWeight: '700', color: '#1D9E75', padding: '14px 28px', background: '#fff', border: 'none', borderRadius: '10px', cursor: 'pointer' }}>
             Start your free 30-day trial
@@ -384,7 +399,7 @@ export default function LandingPage() {
       </div>
 
       <div style={{ background: '#f8f9fc', borderTop: '1px solid #f0f0f0', padding: '24px 20px' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: isMobile ? 'column' : 'row' as const, alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', gap: '14px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', flexDirection: m ? 'column' : 'row' as const, alignItems: m ? 'flex-start' : 'center', justifyContent: 'space-between', gap: '14px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ width: '30px', height: '30px', background: '#1D9E75', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <svg width="14" height="14" viewBox="0 0 18 18" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
