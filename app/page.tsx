@@ -19,17 +19,29 @@ export default function LandingPage() {
     return () => window.removeEventListener('resize', check)
   }, [])
 
-  async function handleSubmit() {
-    if (!formData.name || !formData.email || !formData.college) {
-      alert('Please fill in name, email and college name.')
-      return
-    }
-    setSubmitting(true)
-    await new Promise(r => setTimeout(r, 800))
-    setSubmitting(false)
-    setSubmitted(true)
-    setFormData({ name: '', email: '', college: '', interest: '', message: '' })
+async function handleSubmit() {
+  if (!formData.name || !formData.email || !formData.college) {
+    alert('Please fill in name, email and college name.')
+    return
   }
+  setSubmitting(true)
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    })
+    if (res.ok) {
+      setSubmitted(true)
+      setFormData({ name: '', email: '', college: '', interest: '', message: '' })
+    } else {
+      alert('Something went wrong. Please email us directly at johnydurai@gmail.com')
+    }
+  } catch {
+    alert('Something went wrong. Please email us directly at johnydurai@gmail.com')
+  }
+  setSubmitting(false)
+}
 
   const features = [
     { icon: '#E6F1FB', stroke: '#185FA5', title: 'Smart call queue', desc: 'Officers see exactly who to call every morning — ranked by priority and follow-up date.' },
