@@ -1,3 +1,4 @@
+'use client'
 export default function PrivacyPolicy() {
   return (
     <div style={{ fontFamily: 'system-ui, -apple-system, sans-serif', color: '#1a1a18', background: '#ffffff', minHeight: '100vh' }}>
