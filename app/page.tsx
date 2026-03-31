@@ -421,16 +421,17 @@ async function handleSubmit() {
             <span style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a18' }}>Placera</span>
           </div>
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' as const }}>
-            {['Features', 'Pricing', 'Contact', 'Sign up', 'Sign in'].map(link => (
-              <span key={link} style={{ fontSize: '13px', color: '#555', cursor: 'pointer' }}
-                onClick={() => {
-                  if (link === 'Sign up') window.open('https://login.placera.in/signup', '_blank')
-                  else if (link === 'Sign in') window.open('https://login.placera.in', '_blank')
-                  else { const el = document.getElementById(link.toLowerCase()); el?.scrollIntoView({ behavior: 'smooth' }) }
-                }}>
-                {link}
-              </span>
-            ))}
+            {['Features', 'Pricing', 'Contact', 'Sign up', 'Sign in', 'Privacy policy'].map(link => (
+  <span key={link} style={{ fontSize: '13px', color: '#555', cursor: 'pointer' }}
+    onClick={() => {
+      if (link === 'Sign up') window.open('https://login.placera.in/signup', '_blank')
+      else if (link === 'Sign in') window.open('https://login.placera.in', '_blank')
+      else if (link === 'Privacy policy') window.location.href = '/privacy'
+      else { const el = document.getElementById(link.toLowerCase()); el?.scrollIntoView({ behavior: 'smooth' }) }
+    }}>
+    {link}
+  </span>
+))}
           </div>
           <div style={{ fontSize: '12px', color: '#aaa' }}>© 2026 Placera</div>
         </div>
