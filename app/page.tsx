@@ -98,19 +98,19 @@ export default function LandingPage() {
 
   const plans = [
     {
-      name: 'Trial', price: 'Free', sub: 'for 30 days', desc: 'Try everything Placera offers',
-      features: ['Up to 3 officers', '500 HR contacts', 'Student pipeline', 'Director dashboard', 'Excel import', 'Email support'],
+      name: 'Starter', price: '\u20B936,000', sub: '/year', desc: 'For small placement cells — 3 users',
+      features: ['Principal + Director + Coordinator', 'Unlimited HR contacts', 'Student pipeline', 'Director dashboard', 'Excel import', 'Email support'],
       cta: 'Start free trial', ctaStyle: 'outline' as const, badge: null,
     },
     {
-      name: 'Starter', price: '\u20B960,000', sub: '/year', desc: 'For colleges ready to scale placements',
-      features: ['Everything in Trial', 'Up to 10 officers', 'Unlimited HR contacts', 'Principal dashboard', 'Priority support', 'Advanced analytics'],
+      name: 'Professional', price: '\u20B972,000', sub: '/year', desc: 'For active placement teams — up to 9 users',
+      features: ['Everything in Starter', 'Placement Officer + 6 Coordinators', 'Principal dashboard', 'Advanced analytics', 'Priority support', 'Up to ~9 users'],
       cta: 'Start free trial', ctaStyle: 'primary' as const, badge: 'Recommended',
     },
     {
-      name: 'Growth', price: 'Coming Soon', sub: '', desc: 'For large institutions with advanced needs',
-      features: ['Everything in Starter', 'Unlimited officers', 'White label option', 'Custom domain', 'Bulk email campaigns', 'Dedicated support'],
-      cta: 'Join waitlist', ctaStyle: 'beta' as const, badge: 'Beta',
+      name: 'Enterprise', price: 'Custom', sub: '', desc: 'For large institutions with advanced needs',
+      features: ['Everything in Professional', 'Unlimited users', 'Training Admin access', 'Student Login', 'AI Placement Predictions (Beta)', 'Dedicated support'],
+      cta: 'Contact us', ctaStyle: 'beta' as const, badge: null,
     },
   ]
 
@@ -445,7 +445,7 @@ export default function LandingPage() {
                   <span style={{ fontSize: isBeta ? '28px' : '40px', fontWeight: 800, color: '#0F0F0E', letterSpacing: '-0.02em' }}>{plan.price}</span>
                   {plan.sub && <span style={{ fontSize: '15px', color: '#A1A1AA', fontWeight: 500 }}>{plan.sub}</span>}
                 </div>
-                {isPrimary && <div style={{ fontSize: '13px', color: '#A1A1AA', marginBottom: '4px' }}>{'\u20B9'}5,000/mo billed annually</div>}
+                {!isBeta && plan.sub && <div style={{ fontSize: '13px', color: '#A1A1AA', marginBottom: '4px' }}>{plan.name === 'Starter' ? '\u20B93,000' : '\u20B96,000'}/mo billed annually</div>}
                 <div style={{ fontSize: '14px', color: '#52525B', marginBottom: '20px', paddingBottom: '20px', borderBottom: '1px solid #F4F4F5' }}>{plan.desc}</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
                   {plan.features.map((f, j) => (
@@ -558,8 +558,9 @@ export default function LandingPage() {
                 <option value="">Select an option</option>
                 <option>Free trial — want to try Placera</option>
                 <option>Demo — want a walkthrough</option>
-                <option>Starter plan — ₹60,000/year</option>
-                <option>Growth plan — interested in beta</option>
+                <option>Starter plan — ₹36,000/year</option>
+                <option>Professional plan — ₹72,000/year</option>
+                <option>Enterprise plan — custom pricing</option>
                 <option>General enquiry</option>
               </select>
             </div>

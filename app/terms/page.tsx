@@ -74,9 +74,9 @@ New colleges receive a 30-day free trial upon signup. No credit card is required
 After the trial period, continued use of the Service requires a paid subscription. We will notify you before your trial expires.
 
 Subscription plans:
-— Starter: ₹2,999 per month — up to 3 officers, 500 HR contacts
-— Growth: ₹5,999 per month — up to 10 officers, unlimited contacts
-— Campus: ₹12,999 per month — unlimited officers and contacts
+— Starter: ₹3,000 per month (₹36,000/year) — Principal + Director + Coordinator (3 users)
+— Professional: ₹6,000 per month (₹72,000/year) — up to 9 users including Placement Officer and Coordinators
+— Enterprise: Custom pricing — unlimited users, Training Admin, Student Login, AI Predictions
 
 Billing:
 Subscriptions are billed monthly in advance. Payment is due on the first day of each billing cycle. We currently accept payment via Razorpay or SBI. It may change. 
@@ -159,7 +159,7 @@ Planned maintenance will be communicated in advance where possible.
 Support:
 We provide support via email at johnydurai@gmail.com. We aim to respond to support requests within 24 hours on working days — Monday to Saturday, 9am to 6pm IST.
 
-We do not provide guaranteed service level agreements on free trial or Starter plans. Growth and Campus plan subscribers receive priority support.`
+We do not provide guaranteed service level agreements on free trial or Starter plans. Professional and Enterprise plan subscribers receive priority support.`
           },
           {
             title: '10. Limitation of liability',
